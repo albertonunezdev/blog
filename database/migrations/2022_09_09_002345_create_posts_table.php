@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('extract');
             $table->longText('body');
-            $table->enum('status', [0,1])->default(1);
+            $table->enum('status', [1,2])->default(1);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
