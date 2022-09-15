@@ -3,7 +3,9 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Lista de Categorías</h1>
+
+
+    <h1>Lista de Etiquetas</h1>
 @stop
 
 @section('content')
@@ -16,32 +18,32 @@
 
     <div class="card">
         <div class="card-header">
-            <a class="btn btn-secondary float-right btn-sm" href="{{ route('admin.categories.create') }}">Agregar Categoría</a>
+            <a class="btn btn-secondary btn-sm float-right" href="{{ route('admin.tags.create') }}">Nueva Etiqueta</a>
         </div>
 
         <div class="card-body">
-            <table id="categories" class="table table-striped dt-responsive nowrap">
+            <table id="tags" class="table table-striped dt-responsive nowrap">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>               
+                        <th>Name</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    @foreach ($categories as $category)
+                    @foreach ($tags as $tag)
                         <tr>
-                            <td>{{$category->id}}</td>
-                            <td>{{$category->name}}</td>
+                            <td>{{$tag->id}}</td>
+                            <td>{{$tag->name}}</td>
                             <td width="10px">
-                                <a class="btn btn-primary btn-sm" href="{{ route('admin.categories.edit', $category) }}">Editar</a>
+                                <a class="btn btn-primary btn-sm" href="{{ route('admin.tags.edit', $tag) }}">Editar</a>
 
-                                <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" style="display: inline-block;">
+                                <form method="POST" action="{{ route('admin.tags.destroy', $tag) }}" style="display: inline-block;">
                                     @csrf
                                     @method('delete')
-
-                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    
+                                    <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
                                 </form>
                             </td>
                         </tr>
@@ -54,7 +56,7 @@
 
 @section('js')
     <script>
-        $('#categories').DataTable({
+        $('#tags').DataTable({
             responsive: true,
             autoWidth: false,
             "language": {
