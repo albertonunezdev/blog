@@ -9,6 +9,13 @@ class Post extends Model
 {
     use HasFactory;
 
+    // Campos que no quiero que se almacenen
+    protected $guarded = [
+        'id',
+        'created_at',
+        'update_ad'
+    ];
+
     // Relacion uno a muchos inversa
 
     public function user()

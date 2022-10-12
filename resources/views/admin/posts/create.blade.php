@@ -9,62 +9,33 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            {!! Form::open(['route' => 'admin.posts.store', 'autocomplete' => 'off']) !!}
+            {!! Form::open(['route' => 'admin.posts.store', 'autocomplete' => 'off', 'files' => true]) !!}
 
-                <div class="form-group">
-                    {!! Form::label('name', 'Nombre:') !!}
-                    {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Ingrese el nombre del post']) !!}
-                </div>
+                {!! Form::hidden('user_id', auth()->user()->id) !!}
 
-                <div class="form-group">
-                    {!! Form::label('slug', 'Slug:') !!}
-                    {!! Form::text('slug', null, ['class' => 'form-control', 'placeholder' => 'Ingrese el nombre del slug', 'readonly']) !!}
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('category_id', 'Categoría:') !!}
-                    {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
-                </div>
-
-                <div class="form-group">
-                    <p class="font-weight-bold">Etiquetas</p>
-
-                    @foreach ($tags as $tag)
-                        <label class="mr-2">
-                            {!! Form::checkbox('tags[]', $tag->id, null) !!}
-                            {{ $tag->name }}
-                        </label>
-                    @endforeach
-                </div>
-
-                <div class="form-group">
-                    <p class="font-weight-bold">Estados</p>
-                    
-                    <label>
-                        {!! Form::radio('status', 1, true) !!}
-                        Borrador
-                    </label>
-
-                    <label>
-                        {!! Form::radio('status', 2) !!}
-                        Publicado
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('extract', 'Extracto:') !!}
-                    {!! Form::textarea('extract', null, ['class' => 'form-control']) !!}
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('body', 'Cuerpo del Post:') !!}
-                    {!! Form::textarea('body', null, ['class' => 'form-control']) !!}
-                </div>
-
+                @include('admin.posts.partials.form')
+                
                 {!! Form::submit('Crear Post', ['btn btn-primary btn-sm']) !!}
             {!! Form::close() !!}
         </div>
     </div>
+@stop
+
+@section('css')
+    <style>
+        .image-wrapper {
+            position: relative;
+            padding-bottom: 56.25%
+        }
+
+        .image-wrapper img {
+            position: absolute;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+
+        }
+    </style>
 @stop
 
 @section('js')
@@ -91,5 +62,18 @@
             .catch( error => {
                 console.error( error );
             } );
+
+        document.getElementById("file").addEventListener('change', cambiarImagen);
+
+        function cambiarImagen(event){
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                document.getElementById("picture").setAttribute('src', event.target.result);
+            };
+            
+            reader.readAsDataURL(file);
+        }
     </script>
 @stop

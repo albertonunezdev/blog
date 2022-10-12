@@ -1,5 +1,9 @@
 <article class="mb-8 bg-white shadow-lg rounded-lg overflow-hidden">
-    <img class="w-full h-72 object-cover object-center" src="{{ Storage::url($post->image->url) }}" alt="">
+    @if ($post->image)
+        <img class="w-full h-72 object-cover object-center" src="{{ Storage::url($post->image->url) }}" alt="">
+    @else
+        <img class="w-full h-72 object-cover object-center" src="https://placehold.jp/640x480.png" alt="">
+    @endif
 
     <div class="px-6 py-4"> 
         <h1 class="font-bold text-xl mb-2">
@@ -7,7 +11,7 @@
         </h1>
 
         <div class="text-gray-700">
-            {{ $post->extract }}
+            {!!$post->extract!!}
         </div>
     </div>
 
