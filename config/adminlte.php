@@ -315,68 +315,41 @@ return [
             'text'        => 'Dashboard',
             'route'       => 'admin.home',
             'icon'        => 'fa-fw fas fa-tachometer-alt',
+            'can'         => 'admin.home'  
         ],
-        ['header' => 'ADMINISTRADOR'],
+        [
+            'text'        => 'Usuarios',
+            'route'       => 'admin.users.index',
+            'icon'        => 'fa-fw fas fa-users',
+            'can'         => 'admin.users.index'
+        ],
         [
             'text' => 'Categorías',
             'route'=> 'admin.categories.index',
             'icon' => 'fab fa-fw fa-buffer',
-            'active' => ['admin/categories*']
+            'active' => ['admin/categories*'],
+            'can'         => 'admin.categories.index'
         ],
         [
             'text' => 'Etiquetas',
             'route'=> 'admin.tags.index',
             'icon' => 'far fa-fw fa-bookmark',
-            'active' => ['admin/tags*']
+            'active' => ['admin/tags*'],
+            'can'         => 'admin.tags.index'
         ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
-        ],
+
         ['header' => 'OPCIONES DEL BLOG'],
         [
             'text'       => 'Lista de Post',
             'route'      => 'admin.posts.index',
-            'icon'       => 'fas fa-fw fa-clipboard'
+            'icon'       => 'fas fa-fw fa-clipboard',
+            'can'         => 'admin.posts.index'
         ],
         [
             'text'       => 'Crear Nuevo Post',
             'route'      => 'admin.posts.create',
-            'icon'       => 'fas fa-fw fa-file'
+            'icon'       => 'fas fa-fw fa-file',
+            'can'         => 'admin.posts.create'
         ],
     ],
 

@@ -3,7 +3,9 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-
+    @can('admin.tags.create')
+        <a class="btn btn-secondary btn-sm float-right" href="{{ route('admin.tags.create') }}">Nueva Etiqueta</a>
+    @endcan
 
     <h1>Lista de Etiquetas</h1>
 @stop
@@ -17,17 +19,13 @@
     @endif
 
     <div class="card">
-        <div class="card-header">
-            <a class="btn btn-secondary btn-sm float-right" href="{{ route('admin.tags.create') }}">Nueva Etiqueta</a>
-        </div>
-
         <div class="card-body">
             <table id="tags" class="table table-striped dt-responsive nowrap">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Acciones</th>
+                        <th></th>
                     </tr>
                 </thead>
 
@@ -37,14 +35,18 @@
                             <td>{{$tag->id}}</td>
                             <td>{{$tag->name}}</td>
                             <td width="10px">
-                                <a class="btn btn-primary btn-sm" href="{{ route('admin.tags.edit', $tag) }}">Editar</a>
-
-                                <form method="POST" action="{{ route('admin.tags.destroy', $tag) }}" style="display: inline-block;">
-                                    @csrf
-                                    @method('delete')
-                                    
-                                    <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
-                                </form>
+                                @can('admin.tags.edit')
+                                    <a class="btn btn-primary btn-sm" href="{{ route('admin.tags.edit', $tag) }}">Editar</a>    
+                                @endcan
+                                
+                                @can('admin.tags.destroy')
+                                    <form method="POST" action="{{ route('admin.tags.destroy', $tag) }}" style="display: inline-block;">
+                                        @csrf
+                                        @method('delete')
+                                        
+                                        <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+                                    </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

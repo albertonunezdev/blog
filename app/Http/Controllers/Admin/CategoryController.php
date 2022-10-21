@@ -8,11 +8,15 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
+    public function __construct()
+    {
+        $this->middleware('can:admin.categories.index')->only('index');
+        $this->middleware('can:admin.categories.create')->only('create', 'store');
+        $this->middleware('can:admin.categories.edit')->only('edit', 'update');
+        $this->middleware('can:admin.categories.destroy')->only('destroy');
+    }
+
     public function index()
     {
         $categories = Category::all();
@@ -48,19 +52,6 @@ class CategoryController extends Controller
         $category = Category::create($request->all());
 
         return redirect()->route('admin.categories.edit', $category)->with('info','La categoría se creó con éxito');;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        return view('admin.categories.show', [
-            'category' => $category
-        ]);
     }
 
     /**
