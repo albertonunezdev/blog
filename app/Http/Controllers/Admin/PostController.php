@@ -51,7 +51,7 @@ class PostController extends Controller
         $post = Post::create($request->all());
 
         if($request->file('file')){
-            $url = Storage::put('posts', $request->file('file'));
+            $url = Storage::put('public/posts', $request->file('file'));
 
             $post->image()->create([
                 'url' => $url
@@ -87,6 +87,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
 
+        $this->authorize('author', $post);
+
         $categories = Category::pluck('name', 'id');
         $tags = Tag::all();
 
@@ -106,6 +108,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize('author', $post);
+        
         $post->update($request->all());
 
         if($request->file('file')){
@@ -113,7 +117,7 @@ class PostController extends Controller
 
             if($post->image){
                 Storage::delete($post->image->url);
-
+                
                 $post->image->update([
                     'url' => $url
                 ]);
@@ -122,6 +126,10 @@ class PostController extends Controller
                     'url' => $url
                 ]);
             }
+        }
+
+        if($request->tags){
+            $post->tags()->sync($request->tags);
         }
 
         return redirect()->route('admin.posts.edit', $post)->with('info', 'El post se actualizó con éxito');
@@ -135,6 +143,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $this->authorize('author', $post);
+
+        $post->delete();
+
+        return redirect()->route('admin.posts.index', $post)->with('info', 'El post se eliminó con éxito');
     }
 }
