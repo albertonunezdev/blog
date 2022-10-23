@@ -2,16 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::where('status',2)->latest('id')->paginate(8);
+
+        if(request()->page){
+            $key = 'posts' . request()->page;
+        }else{
+            $key = 'posts';
+        }
+
+        if(Cache::has($key)){
+            $posts = Cache::get($key);
+        }else{
+            $posts = Post::where('status',2)->latest('id')->paginate(8);
+            Cache::put($key, $posts);
+        }
 
         return view('posts.index', [
             'posts' => $posts
